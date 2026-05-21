@@ -164,6 +164,84 @@
         background-color: rgba(197, 168, 128, 0.08);
         height: 100%;
       }
+
+      /* Custom Scan Animations for Protocol Card 2 */
+      @keyframes scan-line {
+        0% {
+          top: 0%;
+        }
+        50% {
+          top: 100%;
+        }
+        100% {
+          top: 0%;
+        }
+      }
+      .animate-scan-line {
+        animation: scan-line 3.5s ease-in-out infinite;
+      }
+      @keyframes spin-reverse {
+        0% {
+          transform: rotate(360deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+      .animate-spin-reverse {
+        animation: spin-reverse 25s linear infinite;
+      }
+      @keyframes target-pulse {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.12);
+          opacity: 0.95;
+          filter: drop-shadow(0 0 4px rgba(197, 168, 128, 0.4));
+        }
+      }
+      .animate-target-pulse {
+        animation: target-pulse 2s ease-in-out infinite;
+      }
+      @keyframes text-flicker {
+        0%, 100% { opacity: 0.7; }
+        45% { opacity: 0.7; }
+        48% { opacity: 0.15; }
+        50% { opacity: 0.7; }
+        85% { opacity: 0.7; }
+        88% { opacity: 0.2; }
+        90% { opacity: 0.7; }
+      }
+      .animate-text-flicker {
+        animation: text-flicker 4s infinite;
+      }
+
+      /* Card 3 Breathing Animations */
+      .duration-4s {
+        transition-duration: 4000ms;
+      }
+      @keyframes brainwave {
+        0% {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.55;
+        }
+        100% {
+          transform: scale(1.6);
+          opacity: 0;
+        }
+      }
+      .animate-brainwave-1 {
+        animation: brainwave 6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+      }
+      .animate-brainwave-2 {
+        animation: brainwave 6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+        animation-delay: 3s;
+      }
     </style>
   </head>
   <body class="overflow-x-hidden antialiased noise-overlay">
@@ -228,10 +306,38 @@
         </svg>
       );
 
+      const UserXIcon = ({ className }) => (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="8.5" cy="7" r="4" />
+          <line x1="18" y1="8" x2="23" y2="13" />
+          <line x1="23" y1="8" x2="18" y2="13" />
+        </svg>
+      );
+
       const LockIcon = ({ className }) => (
         <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+      );
+
+      const BrainIcon = ({ className }) => (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          {/* Left Hemisphere lobes */}
+          <path d="M12 5c-1.66 0-3 1.34-3 3 0 1.66 1.34 3 3 3" />
+          <path d="M12 11c-2.2 0-4 1.8-4 4 0 2.2 1.8 4 4 4" />
+          <path d="M12 5c-2.76 0-5 2.24-5 5 0 1.93 1.09 3.6 2.7 4.4" />
+          <path d="M12 19c-1.66 0-3-1.34-3-3" />
+          
+          {/* Right Hemisphere lobes */}
+          <path d="M12 5c1.66 0 3 1.34 3 3 0 1.66-1.34 3-3 3" />
+          <path d="M12 11c2.2 0 4 1.8 4 4 0 2.2-1.8 4-4 4" />
+          <path d="M12 5c2.76 0 5 2.24 5 5 0 1.93-1.09 3.6-2.7 4.4" />
+          <path d="M12 19c1.66 0 3-1.34 3-3" />
+
+          {/* Middle division */}
+          <line x1="12" y1="4" x2="12" y2="20" strokeDasharray="1 1" />
         </svg>
       );
 
@@ -331,6 +437,8 @@
         const [cursorOpacity, setCursorOpacity] = useState(0);
         const [isClicking, setIsClicking] = useState(false);
         const [schedulerStatus, setSchedulerStatus] = useState('ORFA inactif');
+        const [complianceState, setComplianceState] = useState('VERIFIED'); // 'VERIFIED' | 'SCANNING' | 'ALERT'
+        const [breathingPhase, setBreathingPhase] = useState('INSPIRER'); // 'INSPIRER' | 'RETENIR_PLEIN' | 'EXPIRER' | 'RETENIR_VIDE'
 
         // Floating navbar scroll effect
         const [scrolled, setScrolled] = useState(false);
@@ -401,6 +509,29 @@
               return next;
             });
           }, 3000);
+          return () => clearInterval(interval);
+        }, []);
+
+        // 1.5. Cycle logic for Card 2 compliance check status (Verified -> Scanning -> Alert)
+        useEffect(() => {
+          const interval = setInterval(() => {
+            setComplianceState((prev) => {
+              if (prev === 'VERIFIED') return 'SCANNING';
+              if (prev === 'SCANNING') return 'ALERT';
+              return 'VERIFIED';
+            });
+          }, 3000);
+          return () => clearInterval(interval);
+        }, []);
+
+        // 1.8. Cycle logic for Card 3 square breathing (Inhale -> Hold Full -> Exhale -> Hold Empty)
+        useEffect(() => {
+          const phases = ['INSPIRER', 'RETENIR_PLEIN', 'EXPIRER', 'RETENIR_VIDE'];
+          let index = 0;
+          const interval = setInterval(() => {
+            index = (index + 1) % phases.length;
+            setBreathingPhase(phases[index]);
+          }, 4000); // 4 seconds per phase
           return () => clearInterval(interval);
         }, []);
 
@@ -1011,7 +1142,7 @@
                         Audit et Diagnostic de Vulnérabilité
                       </h3>
                       <p className="text-[12px] text-ivory/50 leading-relaxed font-light mb-6 tracking-wide">
-                        Analyse à distance et sur site de vos implantations et flux sensibles pour détecter les points de faiblesse et anticiper les cyber-menaces ou détournements.
+                        Analyse à distance et sur site de vos implantations et flux sensibles pour détecter les points de vulnérabilité et anticiper les menaces (physiques et/ou numériques).
                       </p>
                       <div className="flex items-center gap-2 text-[10px] font-mono text-champagne/80">
                         <CheckIcon className="w-3.5 h-3.5" /> Cartographie complète des points névralgiques
@@ -1047,18 +1178,33 @@
                     </div>
 
                     <div className="w-48 h-48 flex flex-col items-center justify-center border border-champagne/10 rounded-full relative overflow-hidden bg-obsidian/45 px-6">
-                      <div className="w-full h-24 relative bg-obsidian/40 border border-champagne/10 rounded-xl overflow-hidden flex flex-col justify-between p-2">
+                      {/* Rotating Outer Dashed Circle */}
+                      <div className="absolute inset-2 border border-dashed border-champagne/10 rounded-full animate-spin-reverse pointer-events-none"></div>
+                      {/* Static Inner Circle Guide */}
+                      <div className="absolute inset-5 border border-champagne/5 rounded-full pointer-events-none"></div>
+
+                      <div className="w-full h-24 relative bg-obsidian/40 border border-champagne/10 rounded-xl overflow-hidden flex flex-col justify-between p-2 z-10">
                         <div className="absolute inset-0 bg-dots opacity-40"></div>
-                        <div className="w-full h-[1px] bg-champagne shadow-[0_0_8px_#C5A880] absolute left-0 animate-[bounce_4s_infinite_ease-in-out]"></div>
-                        <div className="flex justify-between font-mono text-[7px] text-champagne/40 z-10 w-full">
+                        {/* Moving scanning line */}
+                        <div className="w-full h-[1.5px] bg-champagne/90 shadow-[0_0_8px_#C5A880] absolute left-0 animate-scan-line z-20"></div>
+                        
+                        <div className="flex justify-between font-mono text-[7px] z-10 w-full">
                           <span>RECHERCHE</span>
-                          <span>ACTIF</span>
+                          {complianceState === 'VERIFIED' && <span className="text-[#C5A880] font-bold">CONFORME</span>}
+                          {complianceState === 'SCANNING' && <span className="text-[#C5A880]/60 animate-pulse">EN COURS</span>}
+                          {complianceState === 'ALERT' && <span className="text-red-500 font-bold animate-pulse">ALERTE</span>}
                         </div>
+                        
                         <div className="flex justify-center z-10">
-                          <UserCheckIcon className="w-7 h-7 text-champagne/70" />
+                          {complianceState === 'VERIFIED' && <UserCheckIcon className="w-7 h-7 text-[#C5A880] animate-target-pulse" />}
+                          {complianceState === 'SCANNING' && <SearchIcon className="w-7 h-7 text-[#C5A880]/60 animate-pulse" />}
+                          {complianceState === 'ALERT' && <UserXIcon className="w-7 h-7 text-red-500 animate-target-pulse" />}
                         </div>
-                        <div className="font-mono text-[6px] text-center text-ivory/30 z-10 w-full truncate">
-                          OPJ_SECURE_VERIFIED
+                        
+                        <div className="font-mono text-[6px] text-center z-10 w-full truncate animate-text-flicker">
+                          {complianceState === 'VERIFIED' && <span className="text-ivory/50">OPJ_SECURE_VERIFIED</span>}
+                          {complianceState === 'SCANNING' && <span className="text-ivory/30">SCANNING_DATABASES...</span>}
+                          {complianceState === 'ALERT' && <span className="text-red-400">PROBITE_NON_CONFORME</span>}
                         </div>
                       </div>
                     </div>
@@ -1080,21 +1226,39 @@
                     </div>
 
                     <div className="w-48 h-48 flex items-center justify-center border border-champagne/10 rounded-full relative overflow-hidden bg-obsidian/45">
-                      <div className="absolute inset-0 bg-dots opacity-40"></div>
-                      <svg className="w-36 h-20 text-champagne/60 overflow-visible" viewBox="0 0 100 30" fill="none">
-                        <path 
-                          d="M0 15 H30 L35 5 L40 25 L45 15 H55 L60 0 L65 30 L70 15 H100" 
-                          stroke="currentColor" 
-                          strokeWidth="1" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                          strokeDasharray="200"
-                          strokeDashoffset="200"
-                          style={{
-                            animation: 'dash 3s linear infinite'
-                          }}
-                        />
-                      </svg>
+                      <div className="absolute inset-0 bg-dots opacity-30"></div>
+                      
+                      {/* Brainwave Concentric Rings */}
+                      <div className="absolute w-36 h-36 border border-champagne/15 rounded-full animate-brainwave-1 pointer-events-none"></div>
+                      <div className="absolute w-36 h-36 border border-champagne/5 rounded-full animate-brainwave-2 pointer-events-none"></div>
+
+                      {/* Breathing Coherence Sphere */}
+                      <div className={`rounded-full border flex flex-col items-center justify-center p-4 transition-all duration-4s ease-in-out z-10 ${
+                        breathingPhase === 'INSPIRER' 
+                          ? 'w-28 h-28 bg-champagne/10 border-champagne/40 shadow-[0_0_20px_rgba(197,168,128,0.15)]' 
+                          : breathingPhase === 'RETENIR_PLEIN' 
+                          ? 'w-32 h-32 bg-champagne/20 border-champagne shadow-[0_0_30px_rgba(197,168,128,0.35)]' 
+                          : breathingPhase === 'EXPIRER' 
+                          ? 'w-24 h-24 bg-champagne/5 border-champagne/20 shadow-[0_0_5px_rgba(197,168,128,0.05)]' 
+                          : 'w-20 h-20 bg-black/45 border-champagne/10 shadow-none'
+                      }`}>
+                        <BrainIcon className={`w-8 h-8 transition-colors duration-4s ${
+                          breathingPhase === 'RETENIR_PLEIN' ? 'text-champagne' : 'text-champagne/60'
+                        }`} />
+                        
+                        <span className="font-mono text-[7px] tracking-[0.15em] text-center text-ivory/80 font-bold uppercase mt-1 leading-none">
+                          {breathingPhase === 'INSPIRER' && 'INSPIRER'}
+                          {breathingPhase === 'RETENIR_PLEIN' && 'RETENIR'}
+                          {breathingPhase === 'EXPIRER' && 'EXPIRER'}
+                          {breathingPhase === 'RETENIR_VIDE' && 'RETENIR'}
+                        </span>
+                        <span className="font-mono text-[5px] text-champagne/45 tracking-[0.1em] mt-0.5">
+                          {breathingPhase === 'INSPIRER' && 'POUMONS +'}
+                          {breathingPhase === 'RETENIR_PLEIN' && 'PLEINS // 4S'}
+                          {breathingPhase === 'EXPIRER' && 'POUMONS -'}
+                          {breathingPhase === 'RETENIR_VIDE' && 'VIDES // 4S'}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
