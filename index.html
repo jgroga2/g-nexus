@@ -385,13 +385,342 @@
       );
 
       const locations = [
-        { city: 'DAKAR', lat: '14.7167° N', lon: '-17.4677° W', tz: 'Africa/Dakar' },
-        { city: 'PARIS', lat: '48.8566° N', lon: '2.3522° E', tz: 'Europe/Paris' },
-        { city: 'ABIDJAN', lat: '5.3600° N', lon: '-4.0083° W', tz: 'Africa/Abidjan' },
-        { city: 'GENÈVE', lat: '46.2044° N', lon: '6.1432° E', tz: 'Europe/Zurich' },
-        { city: 'CASABLANCA', lat: '33.5731° N', lon: '-7.5898° W', tz: 'Africa/Casablanca' },
-        { city: 'NAIROBI', lat: '1.2921° S', lon: '36.8219° E', tz: 'Africa/Nairobi' },
-        { city: 'LONDRES', lat: '51.5074° N', lon: '-0.1278° W', tz: 'Europe/London' }
+        { cityFr: 'DAKAR', cityEn: 'DAKAR', lat: '14.7167° N', lon: '-17.4677° W', tz: 'Africa/Dakar' },
+        { cityFr: 'PARIS', cityEn: 'PARIS', lat: '48.8566° N', lon: '2.3522° E', tz: 'Europe/Paris' },
+        { cityFr: 'ABIDJAN', cityEn: 'ABIDJAN', lat: '5.3600° N', lon: '-4.0083° W', tz: 'Africa/Abidjan' },
+        { cityFr: 'GENÈVE', cityEn: 'GENEVA', lat: '46.2044° N', lon: '6.1432° E', tz: 'Europe/Zurich' },
+        { cityFr: 'CASABLANCA', cityEn: 'CASABLANCA', lat: '33.5731° N', lon: '-7.5898° W', tz: 'Africa/Casablanca' },
+        { cityFr: 'NAIROBI', cityEn: 'NAIROBI', lat: '1.2921° S', lon: '36.8219° E', tz: 'Africa/Nairobi' },
+        { cityFr: 'LONDRES', cityEn: 'LONDON', lat: '51.5074° N', lon: '-0.1278° W', tz: 'Europe/London' }
+      ];
+
+      const getBrowserLanguage = () => {
+        if (typeof navigator !== 'undefined') {
+          const navLang = navigator.language || navigator.userLanguage || 'fr';
+          return navLang.toLowerCase().startsWith('en') ? 'en' : 'fr';
+        }
+        return 'fr';
+      };
+
+      const translations = {
+        fr: {
+          navPillars: 'Piliers',
+          navManifesto: 'Manifeste',
+          navProtocol: 'Protocole',
+          navBook: 'Prendre RDV',
+          
+          heroFirm: 'Cabinet de Protection Stratégique',
+          heroTagline: "L'incertitude réduite.",
+          heroDesc: "Pour les directions juridiques et cabinets d'affaires : transformation de l'expertise judiciaire régalienne en offre de protection et de réduction du risque.",
+          heroBook: 'Prendre rendez-vous',
+          heroDiscover: 'Découvrir les expertises',
+          heroSystemActive: 'PORTAIL OPÉRATIONNEL ACTIF',
+          heroSecureLink: 'LIEN SYSTÈME SÉCURISÉ',
+          
+          cardHeader: 'CONTRÔLE ET DISCRÉTION',
+          cardTitle: 'Piliers opérationnels',
+          
+          card1Title: 'Investigation & Loyauté Preuve',
+          card1Desc: "Rapports recevables en justice (Art. 145 CPC) pour conflits d'associés, fraudes et recherche d'actifs.",
+          card1Badge: '01 / ENQUÊTE',
+          card1Scanner: 'SCANNER ACTIF',
+          
+          card2Title: 'Due Diligence Afrique',
+          card2Desc: 'Background check de probité et neutralisation des risques réputationnels en Afrique francophone.',
+          card2Badge: '02 / COMPLIANCE',
+          card2Feed: 'FLUX ANALYSE',
+          
+          card3Title: 'Méthode ORFA (TOP)',
+          card3Desc: "Techniques d'Optimisation du Potentiel militaires appliquées à la gestion de crise civile.",
+          card3Badge: '03 / RÉSILIENCE',
+          card3Planner: 'PLANIFICATEUR COGNITIF',
+          card3Save: 'Sauver',
+          
+          manifestoBadge: "MANIFESTE D'EXCELLENCE",
+          manifestoQuote: "La confiance exige le respect. L’action n’admet pas l'approximation.",
+          manifestoIntro: "Chez G. NEXUS, nous croyons que la protection des investissements et le développement des affaires ne s’articulent pas autour de théories descendantes, mais de certitudes partagées. Forts de deux décennies d'expertise opérationnelle acquise au cœur des institutions, de l'investigation criminelle et de la gestion des crises paroxystiques, nous appliquons une doctrine d’excellence guidée par la rigueur et la considération mutuelle :",
+          manifestoPoint1Title: "01 / L'INGÉNIERIE DE LA PREUVE",
+          manifestoPoint1Text: "L'Ingénierie de la Preuve : Nous ne présumons pas, nous matérialisons. Chaque conclusion de nos audits et de nos recherches repose sur une méthodologie d'investigation stricte. Nous transformons les doutes en vérités factuelles, rendant nos rapports souverains et inattaquables, au service de la justice et de la transparence des affaires.",
+          manifestoPoint2Title: "02 / LA PROFONDEUR AFRICAINE",
+          manifestoPoint2Text: "La Reconnaissance de la Profondeur Africaine : Le continent africain n’est pas un espace à observer, c’est une terre de civilisations, d'opportunités et d'une profonde subtilité. Notre histoire et notre ancrage de cœur et d'esprit en Afrique de l'Ouest nous ont enseigné la valeur de son intelligence économique, sociale et humaine. Nous n'importons pas de solutions toutes faites : nous lions l'exigence de la conformité internationale à la finesse des dynamiques locales.",
+          manifestoPoint3Title: "03 / FACTEUR HUMAIN & RÉSILIENCE",
+          manifestoPoint3Text: "Le Facteur Humain & la Résilience (TOP / ORFA) : La sûreté n'est rien sans la maîtrise de soi. Spécialistes des Techniques d'Optimisation du Potentiel (TOP) et de l'ORFA, nous préparons les dirigeants, les comités de direction et les équipes exposées à faire face à l'imprévu. Nous transformons la gestion du stress aigu en un levier de lucidité décisionnelle, garantissant la continuité des opérations même en environnement fortement dégradé.",
+          manifestoPoint4Title: "04 / SECRET NATIF",
+          manifestoPoint4Text: "Le Secret comme Posture Native : La discrétion est notre boussole. Protéger vos actifs, veiller sur l'intégrité de vos collaborateurs et honorer la parole donnée est un engagement sacré.",
+          manifestoBottom: "G. NEXUS : L'alliance de la rigueur d'État et de l'intelligence du terrain.",
+          
+          protocolBadge: "L'ARCHIVE DES PROTOCOLES",
+          protocolTitle: "Processus stratégique",
+          protocolStep1Badge: "ETAPE 01 / CARTOGRAPHIE",
+          protocolStep1Title: "Audit et Diagnostic de Vulnérabilité",
+          protocolStep1Desc: "Analyse à distance et sur site de vos implantations et flux sensibles pour détecter les points de vulnérabilité et anticiper les menaces (physiques et/ou numériques).",
+          protocolStep1Check: "Cartographie complète des points névralgiques",
+          
+          protocolStep2Badge: "ETAPE 02 / ENQUÊTE",
+          protocolStep2Title: "Collecte Légale d'Éléments de Preuve",
+          protocolStep2Desc: "Renseignement commercial, vérification de probité de partenaires à l'étranger et constatation légale de fraudes internes. Garantie de la recevabilité juridique.",
+          protocolStep2Check: "Dossiers conformes à l'Art. 145 CPC",
+          
+          protocolStep3Badge: "ETAPE 03 / INTÉGRATION",
+          protocolStep3Title: "Résilience et Gestion Mentale sous Stress",
+          protocolStep3Desc: "Application de la méthodologie TOP/ORFA pour immuniser cognitivement vos dirigeants et cadres de sûreté contre la pression et les déstabilisations.",
+          protocolStep3Check: "Régulation physique et mentale sous haute pression",
+          
+          ctaBadge: "SOUSCRIRE UN MANDAT CONSEIL",
+          ctaTitle: "ENTRER EN RELATION",
+          ctaDesc: "Notre activité est soumise aux règles les plus strictes de discrétion opérationnelle. Pour lancer un audit ou commander une due diligence, initiez notre procédure de prise de rendez-vous sécurisée.",
+          ctaButton: "Planifier la consultation",
+          ctaDiscretion: "DISCRÉTION ASSURÉE",
+          ctaResponse: "RÉPONSE SOUS 24 HEURES",
+          ctaSecureChannel: "CANAL SÉCURISÉ",
+          
+          footerDesc: "Cabinet de conseil indépendant spécialisé dans la gestion des risques et la protection des affaires.",
+          footerStatus: "SYS: SÉCURISÉ & OPÉRATIONNEL",
+          footerNavTitle: "Navigation",
+          footerLegalTitle: "Légal",
+          footerHome: "Accueil",
+          footerNotice: "Mentions Légales",
+          footerGdpr: "Politique RGPD",
+          footerEthics: "Déontologie OPJ",
+          footerSecrecy: "Secret Professionnel",
+          footerCopyright: "© {year} G. NEXUS. TOUS DROITS RÉSERVÉS. CODE DE DÉONTOLOGIE OPJ APPLICABLE.",
+          footerEliteSecurity: "DESIGNED FOR ELITE SECURITY // EUROPE - AFRIQUE",
+          
+          modalStep1Title: "1. Diagnostic du Mandat",
+          modalStep2Title: "2. Planification Consultation",
+          modalStep3Title: "Confirmation de la demande",
+          modalScopeTitle: "Quel est le périmètre principal de votre demande ?",
+          modalScopeComplianceTitle: "Compliance Afrique",
+          modalScopeComplianceDesc: "Due Diligence de probité avant fusion-acquisition ou implantation.",
+          modalScopeInvestigationTitle: "Investigation",
+          modalScopeInvestigationDesc: "Recherche de preuves juridiques, d'actifs, fraudes et délits civils.",
+          modalScopeOrfaTitle: "Gestion de Crise / ORFA",
+          modalScopeOrfaDesc: "Optimisation mentale et décisionnelle des équipes sous haute pression.",
+          modalUrgencyTitle: "Degré d'urgence ?",
+          modalUrgencyImmediate: "Urgence immédiate (Alerte)",
+          modalUrgencyShortTerm: "Mise en œuvre court terme (< 30 jours)",
+          modalUrgencyPreventive: "Veille & prévention stratégique",
+          modalGeographyTitle: "Zone géographique concernée ?",
+          modalGeoEurope: "Europe / France",
+          modalGeoAfrica: "Afrique de l'Ouest (Sénégal, Côte d'Ivoire, Niger...)",
+          modalGeoGlobal: "Transfrontalier / Autre zone",
+          modalContinueButton: "Continuer vers le Calendrier",
+          modalSelectDay: "Sélectionner un jour (Juin 2026)",
+          modalMonthName: "JUIN 2026",
+          modalSlotsFor: "Créneaux disponibles pour le",
+          modalSelectWeekday: "Sélectionnez un jour de semaine",
+          modalErrorSubmit: "Une erreur est survenue lors de la transmission. Veuillez réessayer.",
+          modalErrorNetwork: "Impossible de contacter le serveur de messagerie sécurisé. Vérifiez votre connexion.",
+          modalSecureInfo: "INFORMATIONS SÉCURISÉES DE CONTACT (CONFIDENTIALITÉ OPJ)",
+          modalLabelName: "Nom / Cabinet d'Affaires",
+          modalPlaceholderName: "Ex: Cabinet de Sûreté Alpha",
+          modalLabelEmail: "Canal E-mail de Contact",
+          modalPlaceholderEmail: "Ex: contact@direction-surete.com",
+          modalBackButton: "Retour",
+          modalConfirmButton: "Confirmer le rendez-vous",
+          modalSubmitting: "Transmission...",
+          modalSuccessTitle: "Rendez-vous pré-enregistré",
+          modalSuccessDesc: "Votre demande a été cryptée et stockée de manière sécurisée sous secret professionnel. Le cabinet G. NEXUS reviendra vers vous sous 24 heures.",
+          modalSummaryTitle: "RÉSUMÉ DU MANDAT DE CONSULTATION",
+          modalSummaryFirm: "CABINET :",
+          modalSummaryService: "SERVICE :",
+          modalSummaryDateTime: "DATE & HEURE :",
+          modalSummaryTimezone: "(Fuseau Paris)",
+          modalSummaryStatus: "STATUT :",
+          modalSummaryEncrypted: "CRYPTÉ (SSL 256-BIT)",
+          modalCalendarAdd: "Ajouter à mon Agenda 🗓",
+          modalCloseButton: "Fermer l'interface",
+          
+          // Interactive statuses
+          schedulerStatus_inactive: 'ORFA inactif',
+          schedulerStatus_searching: 'Recherche créneau...',
+          schedulerStatus_reserved_wed: 'Créneau Mercredi réservé',
+          schedulerStatus_reserved_fri: 'Créneau Vendredi réservé',
+          schedulerStatus_validated: 'Protocole validé ✔',
+          
+          // Breathing phases
+          breathing_INSPIRER: 'INSPIRER',
+          breathing_RETENIR_PLEIN: 'RETENIR',
+          breathing_EXPIRER: 'EXPIRER',
+          breathing_RETENIR_VIDE: 'RETENIR',
+          breathing_sub_INSPIRER: 'POUMONS +',
+          breathing_sub_RETENIR_PLEIN: 'PLEINS // 4S',
+          breathing_sub_EXPIRER: 'POUMONS -',
+          breathing_sub_RETENIR_VIDE: 'VIDES // 4S',
+        },
+        en: {
+          navPillars: 'Pillars',
+          navManifesto: 'Manifesto',
+          navProtocol: 'Protocol',
+          navBook: 'Book Appt',
+          
+          heroFirm: 'Strategic Protection Firm',
+          heroTagline: "Uncertainty reduced.",
+          heroDesc: "For legal departments and corporate law firms: transforming sovereign judicial expertise into a strategic protection and risk reduction offering.",
+          heroBook: 'Book an appointment',
+          heroDiscover: 'Discover expertise',
+          heroSystemActive: 'OPERATIONAL PORTAL ACTIVE',
+          heroSecureLink: 'SECURE SYSTEM LINK',
+          
+          cardHeader: 'CONTROL AND DISCRETION',
+          cardTitle: 'Operational Pillars',
+          
+          card1Title: 'Investigation & Admissible Proof',
+          card1Desc: "Reports admissible in court (Art. 145 CPC) for partner disputes, fraud, and asset tracing.",
+          card1Badge: '01 / INVESTIGATION',
+          card1Scanner: 'ACTIVE SCANNER',
+          
+          card2Title: 'Africa Due Diligence',
+          card2Desc: 'Integrity background checks and reputational risk mitigation in French-speaking Africa.',
+          card2Badge: '02 / COMPLIANCE',
+          card2Feed: 'ANALYSIS FEED',
+          
+          card3Title: 'ORFA Method (TOP)',
+          card3Desc: "Military Potential Optimization Techniques applied to civil crisis management.",
+          card3Badge: '03 / RESILIENCE',
+          card3Planner: 'COGNITIVE PLANNER',
+          card3Save: 'Save',
+          
+          manifestoBadge: "MANIFESTO OF EXCELLENCE",
+          manifestoQuote: "Trust demands respect. Action admits no approximation.",
+          manifestoIntro: "At G. NEXUS, we believe that investment protection and business development are not built on top-down theories, but on shared certainty. With two decades of operational expertise gained at the heart of state institutions, criminal investigation, and paroxysmal crisis management, we apply a doctrine of excellence guided by rigor and mutual consideration:",
+          manifestoPoint1Title: "01 / EVIDENCE ENGINEERING",
+          manifestoPoint1Text: "Evidence Engineering: We do not assume, we materialize. Every conclusion of our audits and investigations relies on a strict investigative methodology. We transform doubts into factual truths, making our reports sovereign and unassailable, serving justice and business transparency.",
+          manifestoPoint2Title: "02 / THE AFRICAN DEPTH",
+          manifestoPoint2Text: "Recognition of African Depth: The African continent is not a space to be observed; it is a land of civilizations, opportunities, and profound subtlety. Our history and our deep-rooted emotional and intellectual connection to West Africa have taught us the value of its economic, social, and human intelligence. We do not import ready-made solutions: we bridge international compliance requirements with local dynamics.",
+          manifestoPoint3Title: "03 / HUMAN FACTOR & RESILIENCE",
+          manifestoPoint3Text: "Human Factor & Resilience (TOP / ORFA): Safety is nothing without self-control. As specialists in Potential Optimization Techniques (TOP) and ORFA, we prepare executives, steering committees, and front-line teams to face the unexpected. We transform acute stress management into a driver of decision-making clarity, ensuring operational continuity even in severely degraded environments.",
+          manifestoPoint4Title: "04 / NATIVE SECRECY",
+          manifestoPoint4Text: "Secrecy as a Native Stance: Discretion is our compass. Protecting your assets, safeguarding the integrity of your employees, and honoring our word is a sacred commitment.",
+          manifestoBottom: "G. NEXUS: The alliance of State rigor and field intelligence.",
+          
+          protocolBadge: "PROTOCOL ARCHIVE",
+          protocolTitle: "Strategic Process",
+          protocolStep1Badge: "STEP 01 / MAPPING",
+          protocolStep1Title: "Vulnerability Audit & Diagnosis",
+          protocolStep1Desc: "Remote and on-site analysis of your installations and sensitive flows to detect vulnerability points and anticipate threats (physical and/or digital).",
+          protocolStep1Check: "Complete mapping of key nerve centers",
+          
+          protocolStep2Badge: "STEP 02 / INVESTIGATION",
+          protocolStep2Title: "Legal Gathering of Evidence",
+          protocolStep2Desc: "Business intelligence, integrity verification of foreign partners, and legal documentation of internal fraud. Ensured legal admissibility.",
+          protocolStep2Check: "Case files compliant with Art. 145 CPC",
+          
+          protocolStep3Badge: "STEP 03 / INTEGRATION",
+          protocolStep3Title: "Resilience & Mental Stress Management",
+          protocolStep3Desc: "Application of the TOP/ORFA methodology to cognitively immunize your executives and security officers against pressure and destabilization.",
+          protocolStep3Check: "Physical and mental regulation under high pressure",
+          
+          ctaBadge: "RETAIN STRATEGIC ADVISORY",
+          ctaTitle: "GET IN TOUCH",
+          ctaDesc: "Our activities are subject to the strictest rules of operational discretion. To launch an audit or order a due diligence review, initiate our secure booking procedure.",
+          ctaButton: "Schedule Consultation",
+          ctaDiscretion: "DISCRETION ASSURED",
+          ctaResponse: "RESPONSE WITHIN 24 HOURS",
+          ctaSecureChannel: "SECURE CHANNEL",
+          
+          footerDesc: "Independent advisory firm specializing in risk management and corporate protection.",
+          footerStatus: "SYS: SECURE & OPERATIONAL",
+          footerNavTitle: "Navigation",
+          footerLegalTitle: "Legal",
+          footerHome: "Home",
+          footerNotice: "Legal Notice",
+          footerGdpr: "GDPR Policy",
+          footerEthics: "OPJ Code of Ethics",
+          footerSecrecy: "Professional Secrecy",
+          footerCopyright: "© {year} G. NEXUS. ALL RIGHTS RESERVED. OPJ CODE OF ETHICS APPLICABLE.",
+          footerEliteSecurity: "DESIGNED FOR ELITE SECURITY // EUROPE - AFRICA",
+          
+          modalStep1Title: "1. Mandate Diagnosis",
+          modalStep2Title: "2. Schedule Consultation",
+          modalStep3Title: "Request Confirmation",
+          modalScopeTitle: "What is the primary scope of your request?",
+          modalScopeComplianceTitle: "Africa Compliance",
+          modalScopeComplianceDesc: "Integrity due diligence prior to M&A or expansion.",
+          modalScopeInvestigationTitle: "Investigation",
+          modalScopeInvestigationDesc: "Gathering legal evidence, asset tracing, fraud and civil offenses.",
+          modalScopeOrfaTitle: "Crisis Management / ORFA",
+          modalScopeOrfaDesc: "Mental and decision-making optimization of teams under high pressure.",
+          modalUrgencyTitle: "Urgency Level?",
+          modalUrgencyImmediate: "Immediate Urgency (Alert)",
+          modalUrgencyShortTerm: "Short-term Implementation (< 30 days)",
+          modalUrgencyPreventive: "Strategic Monitoring & Prevention",
+          modalGeographyTitle: "Geographical Zone Concerned?",
+          modalGeoEurope: "Europe / France",
+          modalGeoAfrica: "West Africa (Senegal, Ivory Coast, Niger...)",
+          modalGeoGlobal: "Cross-border / Other region",
+          modalContinueButton: "Continue to Calendar",
+          modalSelectDay: "Select a day (June 2026)",
+          modalMonthName: "JUNE 2026",
+          modalSlotsFor: "Available slots for",
+          modalSelectWeekday: "Select a weekday",
+          modalErrorSubmit: "An error occurred during transmission. Please try again.",
+          modalErrorNetwork: "Unable to contact the secure mail server. Check your connection.",
+          modalSecureInfo: "SECURE CONTACT INFORMATION (OPJ CONFIDENTIALITY)",
+          modalLabelName: "Name / Law Firm",
+          modalPlaceholderName: "e.g., Alpha Security Firm",
+          modalLabelEmail: "Contact Email Channel",
+          modalPlaceholderEmail: "e.g., contact@security-direction.com",
+          modalBackButton: "Back",
+          modalConfirmButton: "Confirm appointment",
+          modalSubmitting: "Transmitting...",
+          modalSuccessTitle: "Appointment Pre-registered",
+          modalSuccessDesc: "Your request has been encrypted and securely stored under professional secrecy. The G. NEXUS firm will get back to you within 24 hours.",
+          modalSummaryTitle: "CONSULTATION MANDATE SUMMARY",
+          modalSummaryFirm: "FIRM:",
+          modalSummaryService: "SERVICE:",
+          modalSummaryDateTime: "DATE & TIME:",
+          modalSummaryTimezone: "(Paris Timezone)",
+          modalSummaryStatus: "STATUS:",
+          modalSummaryEncrypted: "ENCRYPTED (SSL 256-BIT)",
+          modalCalendarAdd: "Add to my Calendar 🗓",
+          modalCloseButton: "Close Interface",
+          
+          // Interactive statuses
+          schedulerStatus_inactive: 'ORFA inactive',
+          schedulerStatus_searching: 'Searching slot...',
+          schedulerStatus_reserved_wed: 'Wednesday slot reserved',
+          schedulerStatus_reserved_fri: 'Friday slot reserved',
+          schedulerStatus_validated: 'Protocol validated ✔',
+          
+          // Breathing phases
+          breathing_INSPIRER: 'INHALE',
+          breathing_RETENIR_PLEIN: 'HOLD',
+          breathing_EXPIRER: 'EXHALE',
+          breathing_RETENIR_VIDE: 'HOLD',
+          breathing_sub_INSPIRER: 'LUNGS +',
+          breathing_sub_RETENIR_PLEIN: 'FULL // 4S',
+          breathing_sub_EXPIRER: 'LUNGS -',
+          breathing_sub_RETENIR_VIDE: 'EMPTY // 4S',
+        }
+      };
+
+      const logSequenceFr = [
+        'Scan initial Target-Alpha (Dakar, SN)... OK',
+        'Vérification registres commerciaux... Terminé',
+        'Contrôle des liens de probité... Conforme',
+        'Audit de risque réputationnel... Conforme',
+        'Status: CERTIFICAT DE COMPLIANCE ÉMIS',
+        '--------------------------------------',
+        'Scan initial Partner-Bravo (Abidjan, CI)... OK',
+        'Analyse des structures locales... En cours',
+        'Warning: Anomalie détectée chaîne de sous-traitance',
+        'Liaison terrain établie... Protocole de levée de doute',
+        'Rapport rédigé sous secret professionnel.'
+      ];
+
+      const logSequenceEn = [
+        'Initial scan Target-Alpha (Dakar, SN)... OK',
+        'Corporate registry verification... Done',
+        'Integrity links check... Compliant',
+        'Reputational risk audit... Compliant',
+        'Status: COMPLIANCE CERTIFICATE ISSUED',
+        '--------------------------------------',
+        'Initial scan Partner-Bravo (Abidjan, CI)... OK',
+        'Local structure analysis... In progress',
+        'Warning: Subcontracting chain anomaly detected',
+        'Field liaison established... Double-check protocol',
+        'Report drafted under professional secrecy.'
       ];
 
       function App() {
@@ -401,28 +730,38 @@
         const philosophyRef = useRef(null);
         const protocolContainerRef = useRef(null);
         
+        // Language State
+        const [lang, setLang] = useState(() => getBrowserLanguage());
+        const t = translations[lang];
+        const weekDays = lang === 'fr' ? ['L', 'M', 'M', 'J', 'V', 'S', 'D'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
         // Custom states for Interactive Features
         const [investigationStack, setInvestigationStack] = useState([
-          { id: 'inv-1', title: 'Audit Sapin II', desc: 'Enquête de probité interne - Retail Group', code: 'SEC-290-A', status: 'Actif' },
-          { id: 'inv-2', title: 'Tracing Financier', desc: 'Recherche actifs offshore - Contentieux', code: 'ASST-104-X', status: 'Résolu' },
-          { id: 'inv-3', title: 'Due Diligence M&A', desc: 'Background check de probité - Énergie', code: 'DD-881-Z', status: 'Clôturé' }
+          { 
+            id: 'inv-1', 
+            titleFr: 'Audit Sapin II', titleEn: 'Sapin II Audit', 
+            descFr: 'Enquête de probité interne - Retail Group', descEn: 'Internal integrity investigation - Retail Group', 
+            code: 'SEC-290-A', 
+            statusFr: 'Actif', statusEn: 'Active' 
+          },
+          { 
+            id: 'inv-2', 
+            titleFr: 'Tracing Financier', titleEn: 'Financial Tracing', 
+            descFr: 'Recherche actifs offshore - Contentieux', descEn: 'Offshore asset tracing - Litigation', 
+            code: 'ASST-104-X', 
+            statusFr: 'Résolu', statusEn: 'Resolved' 
+          },
+          { 
+            id: 'inv-3', 
+            titleFr: 'Due Diligence M&A', titleEn: 'M&A Due Diligence', 
+            descFr: 'Background check de probité - Énergie', descEn: 'Integrity background check - Energy', 
+            code: 'DD-881-Z', 
+            statusFr: 'Clôturé', statusEn: 'Closed' 
+          }
         ]);
 
         const [telemetryLogs, setTelemetryLogs] = useState([]);
         const [typedText, setTypedText] = useState('');
-        const logSequence = [
-          'Scan initial Target-Alpha (Dakar, SN)... OK',
-          'Vérification registres commerciaux... Terminé',
-          'Contrôle des liens de probité... Conforme',
-          'Audit de risque réputationnel... Conforme',
-          'Status: CERTIFICAT DE COMPLIANCE ÉMIS',
-          '--------------------------------------',
-          'Scan initial Partner-Bravo (Abidjan, CI)... OK',
-          'Analyse des structures locales... En cours',
-          'Warning: Anomalie détectée chaîne de sous-traitance',
-          'Liaison terrain établie... Protocole de levée de doute',
-          'Rapport rédigé sous secret professionnel.'
-        ];
         
         const [schedulerDays, setSchedulerDays] = useState([
           { name: 'L', active: false },
@@ -436,7 +775,8 @@
         const [cursorPos, setCursorPos] = useState({ x: 50, y: 150 });
         const [cursorOpacity, setCursorOpacity] = useState(0);
         const [isClicking, setIsClicking] = useState(false);
-        const [schedulerStatus, setSchedulerStatus] = useState('ORFA inactif');
+        const [schedulerStatusKey, setSchedulerStatusKey] = useState('inactive');
+        const schedulerStatus = t['schedulerStatus_' + schedulerStatusKey];
         const [complianceState, setComplianceState] = useState('VERIFIED'); // 'VERIFIED' | 'SCANNING' | 'ALERT'
         const [breathingPhase, setBreathingPhase] = useState('INSPIRER'); // 'INSPIRER' | 'RETENIR_PLEIN' | 'EXPIRER' | 'RETENIR_VIDE'
 
@@ -457,6 +797,23 @@
 
         const [locIndex, setLocIndex] = useState(0);
         const [localTime, setLocalTime] = useState('');
+
+        // SEO Update
+        useEffect(() => {
+          document.title = lang === 'fr' 
+            ? 'G. NEXUS — Business Protector | Gestion des Risques & Enquêtes (STANDALONE)' 
+            : 'G. NEXUS — Business Protector | Risk Management & Investigations (STANDALONE)';
+          
+          const metaDescription = document.querySelector('meta[name="description"]');
+          if (metaDescription) {
+            metaDescription.setAttribute('content', lang === 'fr'
+              ? "Cabinet de conseil indépendant d'élite spécialisé dans la gestion des risques stratégiques, l'investigation interne et la résilience opérationnelle sous haute pression (Méthode ORFA). Dirigé par Jean Groga."
+              : "Elite independent advisory firm specializing in strategic risk management, internal investigations, and operational resilience under high pressure (ORFA Method). Led by Jean Groga."
+            );
+          }
+          
+          document.documentElement.setAttribute('lang', lang);
+        }, [lang]);
 
         useEffect(() => {
           const updateTime = () => {
@@ -537,6 +894,10 @@
 
         // 2. Typewriter logic for Card 2
         useEffect(() => {
+          const logSequence = lang === 'fr' ? logSequenceFr : logSequenceEn;
+          setTelemetryLogs([]);
+          setTypedText('');
+          
           let currentLineIndex = 0;
           let currentCharIndex = 0;
           let currentText = '';
@@ -568,7 +929,7 @@
 
           const interval = setInterval(type, 30);
           return () => clearInterval(interval);
-        }, []);
+        }, [lang]);
 
         // 3. Automated schedule clicking animation loop
         useEffect(() => {
@@ -577,7 +938,7 @@
             if (step === 0) {
               setCursorOpacity(1);
               setCursorPos({ x: 30, y: 125 });
-              setSchedulerStatus('Recherche créneau...');
+              setSchedulerStatusKey('searching');
               setTimeout(() => {
                 setCursorPos({ x: 95, y: 70 });
                 step = 1;
@@ -587,7 +948,7 @@
               setTimeout(() => {
                 setIsClicking(false);
                 setSchedulerDays(prev => prev.map((d, i) => i === 2 ? { ...d, active: true } : d));
-                setSchedulerStatus('Créneau Mercredi réservé');
+                setSchedulerStatusKey('reserved_wed');
                 step = 2;
               }, 300);
             } else if (step === 2) {
@@ -600,7 +961,7 @@
               setTimeout(() => {
                 setIsClicking(false);
                 setSchedulerDays(prev => prev.map((d, i) => i === 4 ? { ...d, active: true } : d));
-                setSchedulerStatus('Créneau Vendredi réservé');
+                setSchedulerStatusKey('reserved_fri');
                 step = 4;
               }, 300);
             } else if (step === 4) {
@@ -612,7 +973,7 @@
               setIsClicking(true);
               setTimeout(() => {
                 setIsClicking(false);
-                setSchedulerStatus('Protocole validé ✔');
+                setSchedulerStatusKey('validated');
                 step = 6;
               }, 300);
             } else if (step === 6) {
@@ -620,7 +981,7 @@
                 setCursorOpacity(0);
                 setTimeout(() => {
                   setSchedulerDays(prev => prev.map(d => ({ ...d, active: false })));
-                  setSchedulerStatus('ORFA inactif');
+                  setSchedulerStatusKey('inactive');
                   step = 0;
                 }, 1000);
               }, 2000);
@@ -710,7 +1071,7 @@
 
         const generateGoogleCalendarUrl = () => {
           if (!selectedDate || !selectedTimeSlot) return '#';
-          const serviceName = selectedService === 'due-diligence' ? 'Due Diligence Afrique' : selectedService === 'investigation' ? 'Investigation de Preuve' : 'Gestion de Crise / ORFA';
+          const serviceName = selectedService === 'due-diligence' ? t.modalScopeComplianceTitle : selectedService === 'investigation' ? t.modalScopeInvestigationTitle : t.modalScopeOrfaTitle;
           const title = encodeURIComponent(`Consultation G. NEXUS - ${serviceName}`);
           const dateStr = `202606${selectedDate < 10 ? '0' + selectedDate : selectedDate}`;
           const timeParts = selectedTimeSlot.replace(':', '');
@@ -721,14 +1082,17 @@
           const endMinutes = selectedTimeSlot.split(':')[1];
           const endDateTime = `${dateStr}T${endHourStr}${endMinutes}00`;
           
+          const urgencyStr = urgencyLevel === 'immediate' ? t.modalUrgencyImmediate : urgencyLevel === 'short-term' ? t.modalUrgencyShortTerm : t.modalUrgencyPreventive;
+          const geographyStr = geography === 'europe' ? t.modalGeoEurope : geography === 'west-africa' ? t.modalGeoAfrica : t.modalGeoGlobal;
+          
           const details = encodeURIComponent(
-            `Cabinet/Client : ${contactInfo.name}\n` +
+            `${lang === 'fr' ? 'Cabinet/Client' : 'Firm/Client'} : ${contactInfo.name}\n` +
             `Service : ${serviceName}\n` +
-            `Urgence : ${urgencyLevel === 'immediate' ? 'Urgence immédiate' : urgencyLevel === 'short-term' ? 'Court terme (< 30 jours)' : 'Veille & prévention'}\n` +
-            `Zone géographique : ${geography === 'europe' ? 'Europe / France' : geography === 'west-africa' ? 'Afrique de l\'Ouest' : 'Transfrontalier / Autre'}\n` +
+            `Urgence : ${urgencyStr}\n` +
+            `${lang === 'fr' ? 'Zone géographique' : 'Geographical zone'} : ${geographyStr}\n` +
             `Email : ${contactInfo.email}\n` +
-            `Téléphone : ${contactInfo.phone || 'Non renseigné'}\n\n` +
-            `Généré automatiquement par G. Nexus.`
+            `${lang === 'fr' ? 'Téléphone' : 'Phone'} : ${contactInfo.phone || (lang === 'fr' ? 'Non renseigné' : 'Not provided')}\n\n` +
+            `${lang === 'fr' ? 'Généré automatiquement par G. Nexus.' : 'Automatically generated by G. Nexus.'}`
           );
           return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime}/${endDateTime}&details=${details}&sf=true&output=xml`;
         };
@@ -754,12 +1118,14 @@
                 name: contactInfo.name,
                 email: contactInfo.email,
                 phone: contactInfo.phone || 'Non renseigné',
-                service: selectedService === 'due-diligence' ? 'Due Diligence Afrique' : selectedService === 'investigation' ? 'Investigation de Preuve' : 'Gestion de Crise / ORFA',
-                urgency: urgencyLevel === 'immediate' ? 'Urgence immédiate' : urgencyLevel === 'short-term' ? 'Court terme (< 30 jours)' : 'Veille & prévention',
-                geography: geography === 'europe' ? 'Europe / France' : geography === 'west-africa' ? 'Afrique de l\'Ouest' : 'Transfrontalier / Autre',
-                date: `${selectedDate} Juin 2026`,
+                service: selectedService === 'due-diligence' ? t.modalScopeComplianceTitle : selectedService === 'investigation' ? t.modalScopeInvestigationTitle : t.modalScopeOrfaTitle,
+                urgency: urgencyLevel === 'immediate' ? t.modalUrgencyImmediate : urgencyLevel === 'short-term' ? t.modalUrgencyShortTerm : t.modalUrgencyPreventive,
+                geography: geography === 'europe' ? t.modalGeoEurope : geography === 'west-africa' ? t.modalGeoAfrica : t.modalGeoGlobal,
+                date: `${selectedDate} ${lang === 'fr' ? 'Juin' : 'June'} 2026`,
                 time: selectedTimeSlot,
-                message: `Demande de rendez-vous reçue via le site G. Nexus.\nClient : ${contactInfo.name}\nEmail : ${contactInfo.email}\nTéléphone : ${contactInfo.phone || 'Non renseigné'}\nDate : ${selectedDate} Juin 2026 à ${selectedTimeSlot}`
+                message: lang === 'fr'
+                  ? `Demande de rendez-vous reçue via le site G. Nexus.\nClient : ${contactInfo.name}\nEmail : ${contactInfo.email}\nTéléphone : ${contactInfo.phone || 'Non renseigné'}\nDate : ${selectedDate} Juin 2026 à ${selectedTimeSlot}`
+                  : `Appointment request received via G. Nexus website.\nClient: ${contactInfo.name}\nEmail: ${contactInfo.email}\nPhone: ${contactInfo.phone || 'Not provided'}\nDate: June ${selectedDate}, 2026 at ${selectedTimeSlot}`
               })
             });
 
@@ -767,10 +1133,10 @@
             if (response.status === 200 || result.success) {
               setBookingStep(3);
             } else {
-              setSubmitError("Une erreur est survenue lors de la transmission. Veuillez réessayer.");
+              setSubmitError(t.modalErrorSubmit);
             }
           } catch (err) {
-            setSubmitError("Impossible de contacter le serveur de messagerie sécurisé. Vérifiez votre connexion.");
+            setSubmitError(t.modalErrorNetwork);
           } finally {
             setIsSubmitting(false);
           }
@@ -795,19 +1161,56 @@
                 </a>
 
                 <div className="hidden md:flex items-center gap-8">
-                  <a href="#services" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">Piliers</a>
-                  <a href="#manifeste" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">Manifeste</a>
-                  <a href="#protocole" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">Protocole</a>
+                  <a href="#services" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">{t.navPillars}</a>
+                  <a href="#manifeste" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">{t.navManifesto}</a>
+                  <a href="#protocole" className="text-[10px] font-sans uppercase tracking-[0.2em] text-ivory/50 hover:text-champagne transition-colors duration-200 lift-hover">{t.navProtocol}</a>
                 </div>
 
-                <button 
-                  onClick={openBooking}
-                  className="magnetic-btn shimmer-btn border border-champagne/30 text-champagne px-4 py-1.5 rounded-full text-[10px] font-sans uppercase tracking-[0.15em] hover:bg-champagne hover:text-obsidian hover:border-champagne"
-                >
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    Prendre RDV <ArrowUpRightIcon className="w-3 h-3" />
-                  </span>
-                </button>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2.5 mr-2">
+                    <button 
+                      onClick={() => setLang('fr')} 
+                      className={`relative w-7 h-[18px] rounded-[3px] overflow-hidden transition-all duration-300 p-0 flex items-center justify-center border ${
+                        lang === 'fr' 
+                          ? 'border-champagne scale-105 shadow-[0_0_10px_rgba(197,168,128,0.45)] opacity-100' 
+                          : 'border-white/10 opacity-40 hover:opacity-80 hover:scale-105'
+                      }`}
+                      title="Français"
+                    >
+                      <svg viewBox="0 0 3 2" className="w-full h-full object-cover">
+                        <rect width="1" height="2" fill="#002395" />
+                        <rect x="1" width="1" height="2" fill="#FFFFFF" />
+                        <rect x="2" width="1" height="2" fill="#ED2939" />
+                      </svg>
+                    </button>
+                    <button 
+                      onClick={() => setLang('en')} 
+                      className={`relative w-7 h-[18px] rounded-[3px] overflow-hidden transition-all duration-300 p-0 flex items-center justify-center border ${
+                        lang === 'en' 
+                          ? 'border-champagne scale-105 shadow-[0_0_10px_rgba(197,168,128,0.45)] opacity-100' 
+                          : 'border-white/10 opacity-40 hover:opacity-80 hover:scale-105'
+                      }`}
+                      title="English"
+                    >
+                      <svg viewBox="0 0 60 30" className="w-full h-full object-cover">
+                        <rect width="60" height="30" fill="#012169" />
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6" />
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" strokeWidth="2" />
+                        <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10" />
+                        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <button 
+                    onClick={openBooking}
+                    className="magnetic-btn shimmer-btn border border-champagne/30 text-champagne px-4 py-1.5 rounded-full text-[10px] font-sans uppercase tracking-[0.15em] hover:bg-champagne hover:text-obsidian hover:border-champagne"
+                  >
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      {t.navBook} <ArrowUpRightIcon className="w-3 h-3" />
+                    </span>
+                  </button>
+                </div>
               </div>
             </nav>
 
@@ -837,18 +1240,18 @@
 
               {/* Telemetry Operational Overlay */}
               <div className="absolute bottom-8 right-8 md:right-16 hidden sm:flex flex-col items-end text-right font-mono text-[8px] text-champagne/60 tracking-[0.25em] z-10 leading-relaxed pointer-events-none">
-                <span>SECURE SYSTEM LINK // 08-0D-14 // {localTime}</span>
-                <span>LAT: {locations[locIndex].lat} // LON: {locations[locIndex].lon} // {locations[locIndex].city}</span>
+                <span>{t.heroSecureLink} // 08-0D-14 // {localTime}</span>
+                <span>LAT: {locations[locIndex].lat} // LON: {locations[locIndex].lon} // {locations[locIndex][lang === 'fr' ? 'cityFr' : 'cityEn']}</span>
                 <span className="flex items-center gap-1.5 mt-1 text-[7px] text-ivory/45">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880]/80 animate-pulse"></span>
-                  PORTAIL OPÉRATIONNEL ACTIF
+                  {t.heroSystemActive}
                 </span>
               </div>
 
               {/* Hero Content Box - Positioned slightly to the right of our left architectural guide line */}
               <div className="relative z-10 max-w-3xl text-left pl-0 md:pl-[6%]">
                 <div className="hero-animate flex items-center gap-2 mb-4 bg-champagne/5 border border-champagne/10 w-fit px-3 py-1 rounded-full text-[9px] font-mono uppercase tracking-[0.2em] text-champagne/85">
-                  Cabinet de Protection Stratégique
+                  {t.heroFirm}
                 </div>
 
                 <div className="hero-animate flex flex-col items-start mb-6">
@@ -860,12 +1263,12 @@
                     RISK & INVESTIGATION
                   </div>
                   <div className="font-serif italic text-ivory/80 font-light text-2xl md:text-3xl tracking-normal mt-4">
-                    L'incertitude réduite.
+                    {t.heroTagline}
                   </div>
                 </div>
 
                 <p className="hero-animate mt-6 text-xs md:text-sm text-ivory/65 font-sans font-light max-w-lg leading-relaxed tracking-wide">
-                  Pour les directions juridiques et cabinets d'affaires : transformation de l'expertise judiciaire régalienne en offre de protection et de réduction du risque.
+                  {t.heroDesc}
                 </p>
 
                 <div className="hero-animate mt-8 flex flex-wrap gap-4">
@@ -874,52 +1277,56 @@
                     className="magnetic-btn shimmer-btn bg-champagne text-obsidian px-6 py-3 rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-ivory hover:text-obsidian transition-colors"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      Prendre rendez-vous <ArrowUpRightIcon className="w-3.5 h-3.5" />
+                      {t.heroBook} <ArrowUpRightIcon className="w-3.5 h-3.5" />
                     </span>
                   </button>
                   <a 
                     href="#services" 
                     className="px-5 py-3 border border-ivory/15 hover:border-champagne/30 rounded-full font-bold text-[10px] uppercase tracking-[0.15em] text-ivory/75 transition-all lift-hover"
                   >
-                    Découvrir les expertises
+                    {t.heroDiscover}
                   </a>
                 </div>
               </div>
             </section>
 
-            {/* C. FONCTIONNALITES */}
+            {/* C. FONCTIONNALITES — "Artefacts Fonctionnels Interactifs" */}
             <section id="services" className="relative py-14 md:py-36 px-6 md:px-12 bg-obsidian bg-dots border-t border-champagne/5">
               <div className="max-w-7xl mx-auto">
+                {/* Header */}
                 <div className="mb-12 md:mb-28 text-left">
                   <div className="max-w-xl">
-                    <div className="font-mono text-[9px] uppercase text-champagne/60 tracking-[0.3em] mb-3">CONTRÔLE ET DISCRÉTION</div>
+                    <div className="font-mono text-[9px] uppercase text-champagne/60 tracking-[0.3em] mb-3">{t.cardHeader}</div>
                     <h2 className="text-2xl md:text-4xl font-sans font-light uppercase tracking-[0.18em] leading-snug">
-                      Piliers opérationnels
+                      {t.cardTitle}
                     </h2>
                   </div>
                 </div>
 
+                {/* Cards Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 features-trigger">
                   
-                  {/* CARD 1 */}
+                  {/* CARTE 1 — "Mélangeur Diagnostique" */}
                   <div className="feature-card glass-container p-8 rounded-[2rem] flex flex-col justify-between h-[450px] transition-all duration-500 shadow-sm">
                     <div className="text-left">
                       <div className="flex items-center justify-between mb-8">
                         <div className="bg-champagne/5 border border-champagne/10 p-2.5 rounded-xl text-champagne">
                           <SearchIcon className="w-5 h-5" />
                         </div>
-                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">01 / ENQUÊTE</span>
+                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">{t.card1Badge}</span>
                       </div>
-                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">Investigation & Loyauté Preuve</h3>
+                      
+                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">{t.card1Title}</h3>
                       <p className="text-[11px] text-ivory/50 font-light leading-relaxed mb-6">
-                        Rapports recevables en justice (Art. 145 CPC) pour conflits d'associés, fraudes et recherche d'actifs.
+                        {t.card1Desc}
                       </p>
                     </div>
 
+                    {/* Interactive Interface: Mélangeur */}
                     <div className="relative h-40 w-full flex items-center justify-center overflow-hidden bg-black/30 border border-champagne/5 rounded-2xl p-4">
                       <div className="absolute top-2 left-3 font-mono text-[8px] text-champagne/45 flex items-center gap-1.5">
                         <span className="w-1 h-1 rounded-full bg-champagne animate-ping"></span>
-                        SCANNER ACTIF
+                        {t.card1Scanner}
                       </div>
                       <div className="w-full relative h-24 flex items-center justify-center">
                         {investigationStack.map((item, index) => {
@@ -936,10 +1343,16 @@
                             >
                               <div className="flex justify-between items-center mb-1">
                                 <span className="text-[9px] font-mono text-champagne/70 font-semibold">{item.code}</span>
-                                <span className="text-[7px] font-mono px-2 py-0.5 rounded-full bg-champagne/5 text-ivory/60 border border-champagne/10">{item.status}</span>
+                                <span className="text-[7px] font-mono px-2 py-0.5 rounded-full bg-champagne/5 text-ivory/60 border border-champagne/10">
+                                  {lang === 'fr' ? item.statusFr : item.statusEn}
+                                </span>
                               </div>
-                              <div className="text-[11px] font-medium text-ivory truncate">{item.title}</div>
-                              <div className="text-[8px] text-ivory/40 truncate mt-0.5">{item.desc}</div>
+                              <div className="text-[11px] font-medium text-ivory truncate">
+                                {lang === 'fr' ? item.titleFr : item.titleEn}
+                              </div>
+                              <div className="text-[8px] text-ivory/40 truncate mt-0.5">
+                                {lang === 'fr' ? item.descFr : item.descEn}
+                              </div>
                             </div>
                           );
                         })}
@@ -947,26 +1360,28 @@
                     </div>
                   </div>
 
-                  {/* CARD 2 */}
+                  {/* CARTE 2 — "Machine à Écrire Télémétrie" */}
                   <div className="feature-card glass-container p-8 rounded-[2rem] flex flex-col justify-between h-[450px] transition-all duration-500 shadow-sm">
                     <div className="text-left">
                       <div className="flex items-center justify-between mb-8">
                         <div className="bg-champagne/5 border border-champagne/10 p-2.5 rounded-xl text-champagne">
                           <TerminalIcon className="w-5 h-5" />
                         </div>
-                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">02 / COMPLIANCE</span>
+                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">{t.card2Badge}</span>
                       </div>
-                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">Due Diligence Afrique</h3>
+                      
+                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">{t.card2Title}</h3>
                       <p className="text-[11px] text-ivory/50 font-light leading-relaxed mb-6">
-                        Background check de probité et neutralisation des risques réputationnels en Afrique francophone.
+                        {t.card2Desc}
                       </p>
                     </div>
 
+                    {/* Interactive Interface: Telemetry */}
                     <div className="h-40 w-full bg-black/50 border border-champagne/5 rounded-2xl p-4 flex flex-col justify-between font-mono text-[9px] text-champagne/80 overflow-hidden relative">
                       <div className="flex items-center justify-between border-b border-champagne/5 pb-1 mb-2">
                         <div className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 bg-champagne rounded-full animate-pulse"></span>
-                          <span>FLUX ANALYSE</span>
+                          <span>{t.card2Feed}</span>
                         </div>
                         <span className="text-[8px] text-ivory/30">SECURE FEED</span>
                       </div>
@@ -984,24 +1399,26 @@
                     </div>
                   </div>
 
-                  {/* CARD 3 */}
+                  {/* CARTE 3 — "Planificateur Protocole Curseur" */}
                   <div className="feature-card glass-container p-8 rounded-[2rem] flex flex-col justify-between h-[450px] transition-all duration-500 shadow-sm">
                     <div className="text-left">
                       <div className="flex items-center justify-between mb-8">
                         <div className="bg-champagne/5 border border-champagne/10 p-2.5 rounded-xl text-champagne">
                           <ActivityIcon className="w-5 h-5" />
                         </div>
-                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">03 / RÉSILIENCE</span>
+                        <span className="font-mono text-[8px] text-ivory/30 tracking-[0.15em]">{t.card3Badge}</span>
                       </div>
-                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">Méthode ORFA (TOP)</h3>
+                      
+                      <h3 className="text-base font-sans tracking-[0.1em] uppercase mb-2">{t.card3Title}</h3>
                       <p className="text-[11px] text-ivory/50 font-light leading-relaxed mb-6">
-                        Techniques d'Optimisation du Potentiel militaires appliquées à la gestion de crise civile.
+                        {t.card3Desc}
                       </p>
                     </div>
 
+                    {/* Interactive Interface: Grid */}
                     <div className="h-40 w-full bg-black/25 border border-champagne/5 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden">
                       <div className="absolute top-2 left-3 font-mono text-[8px] text-champagne/45 flex items-center gap-1.5">
-                        PLANIFICATEUR COGNITIF
+                        {t.card3Planner}
                       </div>
 
                       <div className="grid grid-cols-7 gap-1 mt-6 z-10">
@@ -1014,7 +1431,7 @@
                                 : 'bg-obsidian/40 border-champagne/10 text-ivory/50'
                             }`}
                           >
-                            <span>{day.name}</span>
+                            <span>{weekDays[idx]}</span>
                           </div>
                         ))}
                       </div>
@@ -1022,10 +1439,11 @@
                       <div className="flex items-center justify-between mt-3 z-10">
                         <span className="font-mono text-[8px] text-ivory/30">{schedulerStatus}</span>
                         <button className="bg-champagne/5 border border-champagne/15 text-champagne text-[8px] font-mono px-2 py-1 rounded-md">
-                          Sauver
+                          {t.card3Save}
                         </button>
                       </div>
 
+                      {/* Floating Cursor */}
                       <svg 
                         style={{
                           left: `${cursorPos.x}px`,
@@ -1048,7 +1466,7 @@
               </div>
             </section>
 
-            {/* D. PHILOSOPHIE */}
+            {/* D. PHILOSOPHIE — "Le Manifeste" */}
             <section 
               id="manifeste" 
               className="relative py-16 md:py-28 px-6 md:px-12 bg-parchment overflow-hidden border-t border-champagne/20 text-obsidian"
@@ -1065,50 +1483,50 @@
               <div className="max-w-5xl mx-auto text-left relative z-10 philosophy-trigger">
                 <div className="flex items-center gap-2 mb-6">
                   <SparkleIcon className="w-3.5 h-3.5 text-champagne" />
-                  <div className="font-mono text-[9px] text-[#937854] uppercase tracking-[0.2em]">MANIFESTE D'EXCELLENCE</div>
+                  <div className="font-mono text-[9px] text-[#937854] uppercase tracking-[0.2em]">{t.manifestoBadge}</div>
                 </div>
                 
                 <h3 className="font-serif italic text-2xl md:text-4xl text-obsidian leading-tight font-light philosophy-text mb-6">
-                  {`La confiance exige le respect. L’action n’admet pas l'approximation.`.split(' ').map((word, idx) => (
+                  {t.manifestoQuote.split(' ').map((word, idx) => (
                     <span key={idx} className="philosophy-word inline-block mr-2">{word}</span>
                   ))}
                 </h3>
 
                 <p className="max-w-3xl text-[12px] md:text-sm text-obsidian/85 leading-relaxed font-light tracking-wide mb-10">
-                  Chez G. NEXUS, nous croyons que la protection des investissements et le développement des affaires ne s’articulent pas autour de théories descendantes, mais de certitudes partagées. Forts de deux décennies d'expertise opérationnelle acquise au cœur des institutions, de l'investigation criminelle et de la gestion des crises paroxystiques, nous appliquons une doctrine d’excellence guidée par la rigueur et la considération mutuelle :
+                  {t.manifestoIntro}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-x-12 md:gap-y-10 border-t border-[#937854]/25 pt-10">
                   
                   {/* Point 1 */}
                   <div className="space-y-2.5">
-                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">01 / L'INGÉNIERIE DE LA PREUVE</div>
+                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">{t.manifestoPoint1Title}</div>
                     <p className="text-[11px] font-sans font-light text-obsidian/80 leading-relaxed tracking-wide">
-                      <strong className="font-semibold text-obsidian">L'Ingénierie de la Preuve :</strong> Nous ne présumons pas, nous matérialisons. Chaque conclusion de nos audits et de nos recherches repose sur une méthodologie d'investigation stricte. Nous transformons les doutes en vérités factuelles, rendant nos rapports souverains et inattaquables, au service de la justice et de la transparence des affaires.
+                      {t.manifestoPoint1Text}
                     </p>
                   </div>
 
                   {/* Point 2 */}
                   <div className="space-y-2.5">
-                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">02 / LA PROFONDEUR AFRICAINE</div>
+                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">{t.manifestoPoint2Title}</div>
                     <p className="text-[11px] font-sans font-light text-obsidian/80 leading-relaxed tracking-wide">
-                      <strong className="font-semibold text-obsidian">La Reconnaissance de la Profondeur Africaine :</strong> Le continent africain n’est pas un espace à observer, c’est une terre de civilisations, d'opportunités et d'une profonde subtilité. Notre histoire et notre ancrage de cœur et d'esprit en Afrique de l'Ouest nous ont enseigné la valeur de son intelligence économique, sociale et humaine. Nous n'importons pas de solutions toutes faites : nous lions l'exigence de la conformité internationale à la finesse des dynamiques locales.
+                      {t.manifestoPoint2Text}
                     </p>
                   </div>
 
                   {/* Point 3 */}
                   <div className="space-y-2.5">
-                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">03 / FACTEUR HUMAIN & RÉSILIENCE</div>
+                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">{t.manifestoPoint3Title}</div>
                     <p className="text-[11px] font-sans font-light text-obsidian/80 leading-relaxed tracking-wide">
-                      <strong className="font-semibold text-obsidian">Le Facteur Humain & la Résilience (TOP / ORFA) :</strong> La sûreté n'est rien sans la maîtrise de soi. Spécialistes des Techniques d'Optimisation du Potentiel (TOP) et de l'ORFA, nous préparons les dirigeants, les comités de direction et les équipes exposées à faire face à l'imprévu. Nous transformons la gestion du stress aigu en un levier de lucidité décisionnelle, garantissant la continuité des opérations même en environnement fortement dégradé.
+                      {t.manifestoPoint3Text}
                     </p>
                   </div>
 
                   {/* Point 4 */}
                   <div className="space-y-2.5">
-                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">04 / SECRET NATIF</div>
+                    <div className="font-mono text-[9px] text-champagne font-bold tracking-wider">{t.manifestoPoint4Title}</div>
                     <p className="text-[11px] font-sans font-light text-obsidian/80 leading-relaxed tracking-wide">
-                      <strong className="font-semibold text-obsidian">Le Secret comme Posture Native :</strong> La discrétion est notre boussole. Protéger vos actifs, veiller sur l'intégrité de vos collaborateurs et honorer la parole donnée est un engagement sacré.
+                      {t.manifestoPoint4Text}
                     </p>
                   </div>
 
@@ -1116,39 +1534,42 @@
 
                 <div className="mt-12 pt-8 border-t border-[#937854]/25 text-left">
                   <div className="font-serif italic text-base md:text-lg text-obsidian font-light tracking-wide">
-                    G. NEXUS : L'alliance de la rigueur d'État et de l'intelligence du terrain.
+                    {t.manifestoBottom}
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* E. PROTOCOLE */}
+            {/* E. PROTOCOLE — "Archive Empilée Sticky" */}
             <section id="protocole" className="relative bg-[#07070a] py-14 md:py-36 px-6 md:px-12 border-t border-champagne/5">
               <div ref={protocolContainerRef} className="max-w-4xl mx-auto">
+                {/* Header */}
                 <div className="mb-12 md:mb-20 max-w-md text-left">
-                  <div className="font-mono text-[9px] uppercase text-champagne/60 tracking-[0.2em] mb-3">L'ARCHIVE DES PROTOCOLES</div>
+                  <div className="font-mono text-[9px] uppercase text-champagne/60 tracking-[0.2em] mb-3">{t.protocolBadge}</div>
                   <h2 className="text-2xl md:text-4xl font-sans font-light uppercase tracking-[0.15em]">
-                    Processus stratégique
+                    {t.protocolTitle}
                   </h2>
                 </div>
 
+                {/* Stacking cards parent */}
                 <div className="relative flex flex-col gap-12 md:gap-20">
                   
                   {/* CARD 1 */}
                   <div className="protocol-card sticky top-24 glass-container rounded-[2rem] p-8 md:p-10 min-h-[380px] flex flex-col md:flex-row justify-between items-center gap-8 shadow-sm bg-[#0c131d]/95 border-champagne/10">
                     <div className="flex-1 text-left">
-                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">ETAPE 01 / CARTOGRAPHIE</div>
+                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">{t.protocolStep1Badge}</div>
                       <h3 className="text-xl font-sans font-normal uppercase mb-4 tracking-[0.1em]">
-                        Audit et Diagnostic de Vulnérabilité
+                        {t.protocolStep1Title}
                       </h3>
                       <p className="text-[12px] text-ivory/50 leading-relaxed font-light mb-6 tracking-wide">
-                        Analyse à distance et sur site de vos implantations et flux sensibles pour détecter les points de vulnérabilité et anticiper les menaces (physiques et/ou numériques).
+                        {t.protocolStep1Desc}
                       </p>
                       <div className="flex items-center gap-2 text-[10px] font-mono text-champagne/80">
-                        <CheckIcon className="w-3.5 h-3.5" /> Cartographie complète des points névralgiques
+                        <CheckIcon className="w-3.5 h-3.5" /> {t.protocolStep1Check}
                       </div>
                     </div>
 
+                    {/* Vector Animation 1 */}
                     <div className="w-48 h-48 flex items-center justify-center border border-champagne/10 rounded-full relative overflow-hidden bg-obsidian/45">
                       <div className="absolute inset-0 bg-dots opacity-30"></div>
                       <div className="w-36 h-36 border border-champagne/15 rounded-full animate-[spin_30s_linear_infinite] flex items-center justify-center">
@@ -1165,34 +1586,35 @@
                   {/* CARD 2 */}
                   <div className="protocol-card sticky top-24 glass-container rounded-[2rem] p-8 md:p-10 min-h-[380px] flex flex-col md:flex-row justify-between items-center gap-8 shadow-sm bg-[#0c131d]/95 border-champagne/10">
                     <div className="flex-1 text-left">
-                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">ETAPE 02 / ENQUÊTE</div>
+                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">{t.protocolStep2Badge}</div>
                       <h3 className="text-xl font-sans font-normal uppercase mb-4 tracking-[0.1em]">
-                        Collecte Légale d'Éléments de Preuve
+                        {t.protocolStep2Title}
                       </h3>
                       <p className="text-[12px] text-ivory/50 leading-relaxed font-light mb-6 tracking-wide">
-                        Renseignement commercial, vérification de probité de partenaires à l'étranger et constatation légale de fraudes internes. Garantie de la recevabilité juridique.
+                        {t.protocolStep2Desc}
                       </p>
                       <div className="flex items-center gap-2 text-[10px] font-mono text-champagne/80">
-                        <CheckIcon className="w-3.5 h-3.5" /> Dossiers conformes à l'Art. 145 CPC
+                        <CheckIcon className="w-3.5 h-3.5" /> {t.protocolStep2Check}
                       </div>
                     </div>
 
+                    {/* Vector Animation 2 */}
                     <div className="w-48 h-48 flex flex-col items-center justify-center border border-champagne/10 rounded-full relative overflow-hidden bg-obsidian/45 px-6">
                       {/* Rotating Outer Dashed Circle */}
                       <div className="absolute inset-2 border border-dashed border-champagne/10 rounded-full animate-spin-reverse pointer-events-none"></div>
                       {/* Static Inner Circle Guide */}
                       <div className="absolute inset-5 border border-champagne/5 rounded-full pointer-events-none"></div>
-
+                      
                       <div className="w-full h-24 relative bg-obsidian/40 border border-champagne/10 rounded-xl overflow-hidden flex flex-col justify-between p-2 z-10">
                         <div className="absolute inset-0 bg-dots opacity-40"></div>
                         {/* Moving scanning line */}
                         <div className="w-full h-[1.5px] bg-champagne/90 shadow-[0_0_8px_#C5A880] absolute left-0 animate-scan-line z-20"></div>
                         
                         <div className="flex justify-between font-mono text-[7px] z-10 w-full">
-                          <span>RECHERCHE</span>
-                          {complianceState === 'VERIFIED' && <span className="text-[#C5A880] font-bold">CONFORME</span>}
-                          {complianceState === 'SCANNING' && <span className="text-[#C5A880]/60 animate-pulse">EN COURS</span>}
-                          {complianceState === 'ALERT' && <span className="text-red-500 font-bold animate-pulse">ALERTE</span>}
+                          <span>{lang === 'fr' ? 'RECHERCHE' : 'SEARCHING'}</span>
+                          {complianceState === 'VERIFIED' && <span className="text-[#C5A880] font-bold">{lang === 'fr' ? 'CONFORME' : 'COMPLIANT'}</span>}
+                          {complianceState === 'SCANNING' && <span className="text-[#C5A880]/60 animate-pulse">{lang === 'fr' ? 'EN COURS' : 'SCANNING'}</span>}
+                          {complianceState === 'ALERT' && <span className="text-red-500 font-bold animate-pulse">{lang === 'fr' ? 'ALERTE' : 'ALERT'}</span>}
                         </div>
                         
                         <div className="flex justify-center z-10">
@@ -1204,7 +1626,7 @@
                         <div className="font-mono text-[6px] text-center z-10 w-full truncate animate-text-flicker">
                           {complianceState === 'VERIFIED' && <span className="text-ivory/50">OPJ_SECURE_VERIFIED</span>}
                           {complianceState === 'SCANNING' && <span className="text-ivory/30">SCANNING_DATABASES...</span>}
-                          {complianceState === 'ALERT' && <span className="text-red-400">PROBITE_NON_CONFORME</span>}
+                          {complianceState === 'ALERT' && <span className="text-red-400">{lang === 'fr' ? 'PROBITE_NON_CONFORME' : 'INTEGRITY_NON_COMPLIANT'}</span>}
                         </div>
                       </div>
                     </div>
@@ -1213,18 +1635,19 @@
                   {/* CARD 3 */}
                   <div className="protocol-card sticky top-24 glass-container rounded-[2rem] p-8 md:p-10 min-h-[380px] flex flex-col md:flex-row justify-between items-center gap-8 shadow-sm bg-[#0c131d]/95 border-champagne/10">
                     <div className="flex-1 text-left">
-                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">ETAPE 03 / INTÉGRATION</div>
+                      <div className="font-mono text-[9px] text-champagne/60 tracking-[0.15em] mb-4">{t.protocolStep3Badge}</div>
                       <h3 className="text-xl font-sans font-normal uppercase mb-4 tracking-[0.1em]">
-                        Résilience et Gestion Mentale sous Stress
+                        {t.protocolStep3Title}
                       </h3>
                       <p className="text-[12px] text-ivory/50 leading-relaxed font-light mb-6 tracking-wide">
-                        Application de la méthodologie TOP/ORFA pour immuniser cognitivement vos dirigeants et cadres de sûreté contre la pression et les déstabilisations.
+                        {t.protocolStep3Desc}
                       </p>
                       <div className="flex items-center gap-2 text-[10px] font-mono text-champagne/80">
-                        <CheckIcon className="w-3.5 h-3.5" /> Régulation physique et mentale sous haute pression
+                        <CheckIcon className="w-3.5 h-3.5" /> {t.protocolStep3Check}
                       </div>
                     </div>
 
+                    {/* Vector Animation 3 */}
                     <div className="w-48 h-48 flex items-center justify-center border border-champagne/10 rounded-full relative overflow-hidden bg-obsidian/45">
                       <div className="absolute inset-0 bg-dots opacity-30"></div>
                       
@@ -1247,16 +1670,10 @@
                         }`} />
                         
                         <span className="font-mono text-[7px] tracking-[0.15em] text-center text-ivory/80 font-bold uppercase mt-1 leading-none">
-                          {breathingPhase === 'INSPIRER' && 'INSPIRER'}
-                          {breathingPhase === 'RETENIR_PLEIN' && 'RETENIR'}
-                          {breathingPhase === 'EXPIRER' && 'EXPIRER'}
-                          {breathingPhase === 'RETENIR_VIDE' && 'RETENIR'}
+                          {t['breathing_' + breathingPhase]}
                         </span>
                         <span className="font-mono text-[5px] text-champagne/45 tracking-[0.1em] mt-0.5">
-                          {breathingPhase === 'INSPIRER' && 'POUMONS +'}
-                          {breathingPhase === 'RETENIR_PLEIN' && 'PLEINS // 4S'}
-                          {breathingPhase === 'EXPIRER' && 'POUMONS -'}
-                          {breathingPhase === 'RETENIR_VIDE' && 'VIDES // 4S'}
+                          {t['breathing_sub_' + breathingPhase]}
                         </span>
                       </div>
                     </div>
@@ -1266,16 +1683,16 @@
               </div>
             </section>
 
-            {/* F. CTA ADHESION */}
+            {/* F. CTA ADHESION — "Prendre Rendez-vous" (Épuré) */}
             <section id="contact" className="relative py-14 md:py-36 px-6 md:px-12 bg-obsidian border-t border-champagne/5">
               <div className="max-w-3xl mx-auto text-center relative z-10 py-10 md:py-16 px-6 md:px-8 border border-champagne/10 bg-[#0c131d]/60 rounded-[2.5rem]">
-                <div className="font-mono text-[9px] text-champagne uppercase tracking-[0.2em] mb-4">SOUSCRIRE UN MANDAT CONSEIL</div>
+                <div className="font-mono text-[9px] text-champagne uppercase tracking-[0.2em] mb-4">{t.ctaBadge}</div>
                 <h2 className="text-2xl md:text-4xl font-sans font-light uppercase tracking-[0.15em] mb-6 leading-tight">
-                  ENTRER EN RELATION
+                  {t.ctaTitle}
                 </h2>
                 
                 <p className="text-[12px] md:text-sm text-ivory/60 leading-relaxed font-light mb-10 max-w-xl mx-auto tracking-wide">
-                  Notre activité est soumise aux règles les plus strictes de discrétion opérationnelle. Pour lancer un audit ou commander une due diligence, initiez notre procédure de prise de rendez-vous sécurisée.
+                  {t.ctaDesc}
                 </p>
 
                 <button 
@@ -1283,16 +1700,16 @@
                   className="magnetic-btn shimmer-btn bg-champagne text-obsidian px-8 py-3.5 rounded-full font-bold text-[10px] uppercase tracking-[0.15em]"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Planifier la consultation <ArrowUpRightIcon className="w-4 h-4" />
+                    {t.ctaButton} <ArrowUpRightIcon className="w-4 h-4" />
                   </span>
                 </button>
 
                 <div className="mt-8 flex justify-center gap-6 text-[9px] font-mono text-ivory/30">
-                  <span>DISCRÉTION ASSURÉE</span>
+                  <span>{t.ctaDiscretion}</span>
                   <span>•</span>
-                  <span>RÉPONSE SOUS 24 HEURES</span>
+                  <span>{t.ctaResponse}</span>
                   <span>•</span>
-                  <span>CANAL SÉCURISÉ</span>
+                  <span>{t.ctaSecureChannel}</span>
                 </div>
               </div>
             </section>
@@ -1308,7 +1725,7 @@
                       <span className="font-serif font-medium tracking-[0.15em] text-sm">G. NEXUS</span>
                     </div>
                     <p className="text-[11px] text-ivory/40 font-light leading-relaxed max-w-xs tracking-wide">
-                      Cabinet de conseil indépendant spécialisé dans la gestion des risques et la protection des affaires.
+                      {t.footerDesc}
                     </p>
                     
                     <div className="flex items-center gap-2 mt-6 font-mono text-[8px] text-champagne/60 bg-champagne/5 w-fit px-3 py-1.5 rounded-full border border-champagne/10">
@@ -1316,37 +1733,37 @@
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
                       </span>
-                      SYS: SÉCURISÉ & OPÉRATIONNEL
+                      {t.footerStatus}
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="font-sans font-normal text-[10px] uppercase tracking-[0.2em] text-champagne mb-4">Navigation</h4>
+                    <h4 className="font-sans font-normal text-[10px] uppercase tracking-[0.2em] text-champagne mb-4">{t.footerNavTitle}</h4>
                     <ul className="space-y-2 text-[10px] font-light text-ivory/50">
-                      <li><a href="#hero" className="hover:text-champagne transition-colors">Accueil</a></li>
-                      <li><a href="#services" className="hover:text-champagne transition-colors">Piliers</a></li>
-                      <li><a href="#manifeste" className="hover:text-champagne transition-colors">Manifeste</a></li>
-                      <li><a href="#protocole" className="hover:text-champagne transition-colors">Protocole</a></li>
+                      <li><a href="#hero" className="hover:text-champagne transition-colors">{t.footerHome}</a></li>
+                      <li><a href="#services" className="hover:text-champagne transition-colors">{t.navPillars}</a></li>
+                      <li><a href="#manifeste" className="hover:text-champagne transition-colors">{t.navManifesto}</a></li>
+                      <li><a href="#protocole" className="hover:text-champagne transition-colors">{t.navProtocol}</a></li>
                     </ul>
                   </div>
 
                   <div>
-                    <h4 className="font-sans font-normal text-[10px] uppercase tracking-[0.2em] text-champagne mb-4">Légal</h4>
+                    <h4 className="font-sans font-normal text-[10px] uppercase tracking-[0.2em] text-champagne mb-4">{t.footerLegalTitle}</h4>
                     <ul className="space-y-2 text-[10px] font-light text-ivory/50">
-                      <li><a href="#" className="hover:text-champagne transition-colors">Mentions Légales</a></li>
-                      <li><a href="#" className="hover:text-champagne transition-colors">Politique RGPD</a></li>
-                      <li><a href="#" className="hover:text-champagne transition-colors">Déontologie OPJ</a></li>
-                      <li><a href="#" className="hover:text-champagne transition-colors">Secret Professionnel</a></li>
+                      <li><a href="#" className="hover:text-champagne transition-colors">{t.footerNotice}</a></li>
+                      <li><a href="#" className="hover:text-champagne transition-colors">{t.footerGdpr}</a></li>
+                      <li><a href="#" className="hover:text-champagne transition-colors">{t.footerEthics}</a></li>
+                      <li><a href="#" className="hover:text-champagne transition-colors">{t.footerSecrecy}</a></li>
                     </ul>
                   </div>
                 </div>
 
                 <div className="border-t border-ivory/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-left">
                   <span className="font-mono text-[8px] text-ivory/30">
-                    © {new Date().getFullYear()} G. NEXUS. TOUS DROITS RÉSERVÉS. CODE DE DÉONTOLOGIE OPJ APPLICABLE.
+                    {t.footerCopyright.replace('{year}', new Date().getFullYear())}
                   </span>
                   <span className="font-mono text-[8px] text-ivory/30">
-                    DESIGNED FOR ELITE SECURITY // EUROPE - AFRIQUE
+                    {t.footerEliteSecurity}
                   </span>
                 </div>
 
@@ -1362,11 +1779,11 @@
                   {/* Modal Header */}
                   <div className="flex items-center justify-between px-8 py-5 border-b border-champagne/15 bg-[#0c121d]">
                     <div className="flex items-center gap-2">
-                      <CalendarIcon className="w-4 h-4 text-champagne" strokeWidth={1.5} />
+                      <CalendarIcon className="w-4 h-4 text-champagne" />
                       <span className="font-serif font-medium uppercase tracking-[0.18em] text-xs text-ivory">
-                        {bookingStep === 1 && '1. Diagnostic du Mandat'}
-                        {bookingStep === 2 && '2. Planification Consultation'}
-                        {bookingStep === 3 && 'Confirmation de la demande'}
+                        {bookingStep === 1 && t.modalStep1Title}
+                        {bookingStep === 2 && t.modalStep2Title}
+                        {bookingStep === 3 && t.modalStep3Title}
                       </span>
                     </div>
                     <button 
@@ -1384,7 +1801,7 @@
                     {bookingStep === 1 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">Quel est le périmètre principal de votre demande ?</h3>
+                          <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">{t.modalScopeTitle}</h3>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <button 
                               onClick={() => setSelectedService('due-diligence')}
@@ -1396,8 +1813,8 @@
                             >
                               <GlobeIcon className={`w-4 h-4 mb-3 ${selectedService === 'due-diligence' ? 'text-champagne' : 'text-ivory/30'}`} strokeWidth={1.5} />
                               <div>
-                                <div className="text-[11px] font-bold uppercase">Compliance Afrique</div>
-                                <div className="text-[9px] opacity-75 mt-1 leading-normal">Due Diligence de probité avant fusion-acquisition ou implantation.</div>
+                                <div className="text-[11px] font-bold uppercase">{t.modalScopeComplianceTitle}</div>
+                                <div className="text-[9px] opacity-75 mt-1 leading-normal">{t.modalScopeComplianceDesc}</div>
                               </div>
                             </button>
 
@@ -1411,8 +1828,8 @@
                             >
                               <SearchIcon className={`w-4 h-4 mb-3 ${selectedService === 'investigation' ? 'text-champagne' : 'text-ivory/30'}`} strokeWidth={1.5} />
                               <div>
-                                <div className="text-[11px] font-bold uppercase">Investigation</div>
-                                <div className="text-[9px] opacity-75 mt-1 leading-normal">Recherche de preuves juridiques, d'actifs, fraudes et délits civils.</div>
+                                <div className="text-[11px] font-bold uppercase">{t.modalScopeInvestigationTitle}</div>
+                                <div className="text-[9px] opacity-75 mt-1 leading-normal">{t.modalScopeInvestigationDesc}</div>
                               </div>
                             </button>
 
@@ -1426,8 +1843,8 @@
                             >
                               <ActivityIcon className={`w-4 h-4 mb-3 ${selectedService === 'orfa' ? 'text-champagne' : 'text-ivory/30'}`} strokeWidth={1.5} />
                               <div>
-                                <div className="text-[11px] font-bold uppercase">Gestion de Crise / ORFA</div>
-                                <div className="text-[9px] opacity-75 mt-1 leading-normal">Optimisation mentale et décisionnelle des équipes sous haute pression.</div>
+                                <div className="text-[11px] font-bold uppercase">{t.modalScopeOrfaTitle}</div>
+                                <div className="text-[9px] opacity-75 mt-1 leading-normal">{t.modalScopeOrfaDesc}</div>
                               </div>
                             </button>
                           </div>
@@ -1435,7 +1852,7 @@
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">Degré d'urgence ?</h3>
+                            <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">{t.modalUrgencyTitle}</h3>
                             <div className="space-y-2">
                               {['immediate', 'short-term', 'preventive'].map((level) => (
                                 <button
@@ -1448,9 +1865,9 @@
                                   }`}
                                 >
                                   <span>
-                                    {level === 'immediate' && 'Urgence immédiate (Alerte)'}
-                                    {level === 'short-term' && 'Mise en œuvre court terme (< 30 jours)'}
-                                    {level === 'preventive' && 'Veille & prévention stratégique'}
+                                    {level === 'immediate' && t.modalUrgencyImmediate}
+                                    {level === 'short-term' && t.modalUrgencyShortTerm}
+                                    {level === 'preventive' && t.modalUrgencyPreventive}
                                   </span>
                                   {urgencyLevel === level && <CheckIcon className="w-3.5 h-3.5 text-champagne" />}
                                 </button>
@@ -1459,7 +1876,7 @@
                           </div>
 
                           <div>
-                            <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">Zone géographique concernée ?</h3>
+                            <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-3">{t.modalGeographyTitle}</h3>
                             <div className="space-y-2">
                               {['europe', 'west-africa', 'global'].map((zone) => (
                                 <button
@@ -1472,9 +1889,9 @@
                                   }`}
                                 >
                                   <span>
-                                    {zone === 'europe' && 'Europe / France'}
-                                    {zone === 'west-africa' && 'Afrique de l\'Ouest (Sénégal, Côte d\'Ivoire, Niger...)'}
-                                    {zone === 'global' && 'Transfrontalier / Autre zone'}
+                                    {zone === 'europe' && t.modalGeoEurope}
+                                    {zone === 'west-africa' && t.modalGeoAfrica}
+                                    {zone === 'global' && t.modalGeoGlobal}
                                   </span>
                                   {geography === zone && <CheckIcon className="w-3.5 h-3.5 text-champagne" />}
                                 </button>
@@ -1488,7 +1905,7 @@
                             onClick={() => setBookingStep(2)}
                             className="bg-champagne text-obsidian border border-champagne px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-1.5 hover:bg-white hover:text-obsidian hover:border-white transition-all shimmer-btn"
                           >
-                            Continuer vers le Calendrier <ChevronRightIcon className="w-4 h-4" />
+                            {t.modalContinueButton} <ChevronRightIcon className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
@@ -1501,11 +1918,11 @@
                           {/* Calendar grid */}
                           <div>
                             <div className="flex items-center justify-between mb-4">
-                              <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne">Sélectionner un jour (Juin 2026)</h3>
-                              <span className="font-mono text-[10px] text-champagne/60">JUIN 2026</span>
+                              <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne">{t.modalSelectDay}</h3>
+                              <span className="font-mono text-[10px] text-champagne/60">{t.modalMonthName}</span>
                             </div>
                             <div className="grid grid-cols-7 gap-1.5 text-center font-mono text-[10px] bg-[#05080c] p-4 border border-champagne/15 rounded-2xl">
-                              {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((d, i) => (
+                              {weekDays.map((d, i) => (
                                 <div key={i} className="text-champagne/40 font-bold py-1">{d}</div>
                               ))}
                               {/* Empty slots for offset if needed, Juin 2026 starts on a Monday */}
@@ -1538,7 +1955,7 @@
                           {/* Time selection */}
                           <div>
                             <h3 className="text-xs font-serif font-semibold uppercase tracking-wider text-champagne mb-4 flex items-center gap-1.5">
-                              <ClockIcon className="w-3.5 h-3.5 text-champagne" /> Créneaux disponibles pour le {selectedDate ? `${selectedDate} Juin` : '...'}
+                              <ClockIcon className="w-3.5 h-3.5 text-champagne" /> {t.modalSlotsFor} {selectedDate ? (lang === 'fr' ? `${selectedDate} Juin` : `June ${selectedDate}`) : '...'}
                             </h3>
                             {selectedDate ? (
                               <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
@@ -1561,7 +1978,7 @@
                               </div>
                             ) : (
                               <div className="h-40 flex items-center justify-center border border-champagne/15 bg-[#05080c] rounded-2xl text-[10px] text-ivory/30 uppercase tracking-widest">
-                                Sélectionnez un jour de semaine
+                                {t.modalSelectWeekday}
                               </div>
                             )}
                           </div>
@@ -1577,27 +1994,27 @@
                             )}
                             <div className="flex items-center gap-2 bg-[#C5A880]/10 border border-[#C5A880]/20 px-4 py-2.5 rounded-xl text-[10px] text-[#C5A880] font-mono font-bold">
                               <LockIcon className="w-3.5 h-3.5" />
-                              <span>INFORMATIONS SÉCURISÉES DE CONTACT (CONFIDENTIALITÉ OPJ)</span>
+                              <span>{t.modalSecureInfo}</span>
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <label className="block text-[9px] font-mono uppercase text-champagne/50 mb-1">Nom / Cabinet d'Affaires</label>
+                                <label className="block text-[9px] font-mono uppercase text-champagne/50 mb-1">{t.modalLabelName}</label>
                                 <input 
                                   type="text" 
                                   required
-                                  placeholder="Ex: Cabinet de Sûreté Alpha" 
+                                  placeholder={t.modalPlaceholderName} 
                                   value={contactInfo.name}
                                   onChange={(e) => setContactInfo({ ...contactInfo, name: e.target.value })}
                                   className="w-full bg-obsidian border border-champagne/15 rounded-xl px-4 py-2.5 text-xs text-ivory placeholder-ivory/35 focus:border-champagne focus:ring-1 focus:ring-champagne focus:outline-none transition-all"
                                 />
                               </div>
                               <div>
-                                <label className="block text-[9px] font-mono uppercase text-champagne/50 mb-1">Canal E-mail de Contact</label>
+                                <label className="block text-[9px] font-mono uppercase text-champagne/50 mb-1">{t.modalLabelEmail}</label>
                                 <input 
                                   type="email" 
                                   required
-                                  placeholder="Ex: contact@direction-surete.com" 
+                                  placeholder={t.modalPlaceholderEmail} 
                                   value={contactInfo.email}
                                   onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
                                   className="w-full bg-obsidian border border-champagne/15 rounded-xl px-4 py-2.5 text-xs text-ivory placeholder-ivory/35 focus:border-champagne focus:ring-1 focus:ring-champagne focus:outline-none transition-all"
@@ -1613,7 +2030,7 @@
                             onClick={() => setBookingStep(1)}
                             className="border border-champagne/30 text-ivory/75 hover:text-ivory px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-1.5 bg-obsidian transition-all"
                           >
-                            <ChevronLeftIcon className="w-4 h-4" /> Retour
+                            <ChevronLeftIcon className="w-4 h-4" /> {t.modalBackButton}
                           </button>
                           {selectedDate && selectedTimeSlot && (
                             <button 
@@ -1621,7 +2038,7 @@
                               disabled={isSubmitting || !contactInfo.name || !contactInfo.email}
                               className="bg-champagne text-obsidian border border-champagne px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white hover:text-obsidian hover:border-white transition-all shimmer-btn"
                             >
-                              {isSubmitting ? 'Transmission...' : 'Confirmer le rendez-vous'}
+                              {isSubmitting ? t.modalSubmitting : t.modalConfirmButton}
                             </button>
                           )}
                         </div>
@@ -1636,18 +2053,18 @@
                         </div>
                         
                         <div className="space-y-2">
-                          <h3 className="text-lg font-serif uppercase tracking-[0.18em] text-champagne">Rendez-vous pré-enregistré</h3>
+                          <h3 className="text-lg font-serif uppercase tracking-[0.18em] text-champagne">{t.modalSuccessTitle}</h3>
                           <p className="text-xs text-ivory/60 max-w-md mx-auto leading-relaxed font-light">
-                            Votre demande a été cryptée et stockée de manière sécurisée sous secret professionnel. Le cabinet G. NEXUS reviendra vers vous sous 24 heures.
+                            {t.modalSuccessDesc}
                           </p>
                         </div>
 
                         <div className="bg-[#05080c]/60 border border-[#C5A880]/15 rounded-2xl p-6 text-left w-full max-w-md font-mono text-[10px] space-y-2 text-ivory shadow-lg">
-                          <div className="text-champagne font-bold border-b border-champagne/10 pb-2 mb-2">RÉSUMÉ DU MANDAT DE CONSULTATION</div>
-                          <div><span className="text-ivory/40">CABINET :</span> {contactInfo.name}</div>
-                          <div><span className="text-ivory/40">SERVICE :</span> {selectedService === 'due-diligence' ? 'Due Diligence Afrique' : selectedService === 'investigation' ? 'Investigation de Preuve' : 'Gestion de Crise / ORFA'}</div>
-                          <div><span className="text-ivory/40">DATE & HEURE :</span> {selectedDate} Juin 2026 à {selectedTimeSlot} (Fuseau Paris)</div>
-                          <div><span className="text-ivory/40">STATUT :</span> CRYPTÉ (SSL 256-BIT)</div>
+                          <div className="text-champagne font-bold border-b border-champagne/10 pb-2 mb-2">{t.modalSummaryTitle}</div>
+                          <div><span className="text-ivory/40">{t.modalSummaryFirm}</span> {contactInfo.name}</div>
+                          <div><span className="text-ivory/40">{t.modalSummaryService}</span> {selectedService === 'due-diligence' ? t.modalScopeComplianceTitle : selectedService === 'investigation' ? t.modalScopeInvestigationTitle : t.modalScopeOrfaTitle}</div>
+                          <div><span className="text-ivory/40">{t.modalSummaryDateTime}</span> {selectedDate} {lang === 'fr' ? 'Juin' : 'June'} 2026 {lang === 'fr' ? 'à' : 'at'} {selectedTimeSlot} {t.modalSummaryTimezone}</div>
+                          <div><span className="text-ivory/40">{t.modalSummaryStatus}</span> {t.modalSummaryEncrypted}</div>
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-4 mt-4">
@@ -1657,13 +2074,13 @@
                             rel="noopener noreferrer"
                             className="magnetic-btn shimmer-btn bg-champagne text-obsidian px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-1.5"
                           >
-                            Ajouter à mon Agenda 🗓
+                            {t.modalCalendarAdd}
                           </a>
                           <button 
                             onClick={closeBooking}
                             className="magnetic-btn border border-champagne/30 text-ivory hover:bg-champagne hover:text-obsidian px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest bg-obsidian transition-all"
                           >
-                            Fermer l'interface
+                            {t.modalCloseButton}
                           </button>
                         </div>
                       </div>
